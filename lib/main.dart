@@ -35,19 +35,23 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Center(child: Text('Exemplo de provider simples'),),
-        ),
-        body: Center(
-          child: Text("${(context).select((Pessoa p) => p.nome)} tem ${(context).select((Pessoa p) => p.idade)} anos de idade",
-          style: const TextStyle(fontSize: 30),),
-        ),
-        floatingActionButton: FloatingActionButton(onPressed: (){
-          Provider.of<Pessoa>(context,listen: false).incrementIdade();
-        },
-          child: const Icon(Icons.plus_one),
+
+      home: Consumer<Pessoa>(
+        builder: (context,pessoa,child) =>
+        
+        Scaffold(
+          appBar: AppBar(
+            title: const Center(child: Text('Exemplo de provider simples'),),
           ),
+          body: Center(
+            child: Text('${pessoa.nome} tem ${pessoa.idade} anos de idade',
+            style: const TextStyle(fontSize: 30),),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () =>  pessoa.incrementIdade(),
+            child: const Icon(Icons.plus_one),
+            ),
+        ),
       ),
     );
   }
